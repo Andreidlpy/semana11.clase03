@@ -1,74 +1,83 @@
-document.addEventListener('DOMContentLoaded', createCalculator);
+document.addEventListener('DOMContentLoaded', initializeCalculator);
+
 const buttons = document.querySelectorAll('#calculator-numbers button');
 const calculatorView = document.querySelector('#calculator-view');
 
 let operacion = '';
 let resultado = '';
+let historial = [];
+let nuevaOperacion = true;
+function initializeCalculator() {
+    updateView();
 
-function createCalculator (){
-
-    updateView()
-
-    buttons.forEach(( button ) => {
-        button.addEventListener( 'click', () => {
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            if( nuevaOperacion ){
+                operacion = '';
+                nuevaOperacion = false;
+            }
             operacion += button.value;
-            updateView();
-        })
-    })
+            updateView()
+        });
+    });
 
     const actions = document.querySelectorAll('#calculator-actions button');
 
-    actions.forEach(( action ) => {
-        action.addEventListener( 'click', () => { 
+    actions.forEach((action) => {
+        action.addEventListener('click', () => {
+            if (operacion === '') return;
 
-            if( operacion === '' ) return;
+            calculateResult();
 
-            if( action.value === '=' ){
-                calcularResultado();
-            }else{
-                operacion += action.value
+            if (action.value === '=') {
+                calculateResult();
+                nuevaOperacion = true;
+            } else {
+                operacion += action.value;
             }
-        
-        })
-    })
+        });
+    });
 
     const buttonClear = document.querySelector('#button-clear');
 
-    buttonClear.addEventListener( 'click' , ( ) => {
-        calculatorView.innerHTML = '0';
-        operacion = '';
-        resultado = '';
+    buttonClear.addEventListener('click', () => {
+        clearCalculator();
     });
 
-    buttonSubstract = document.querySelector('#button-substract');
+    const buttonSubtract = document.querySelector('#button-subtract');
 
-    buttonSubstract.addEventListener( 'click' , ( ) => {
-    
-        operacion = operacion.split('').splice(0 , operacion.length - 1).join('');
-        
-        if( operacion === '' ) {
-            calculatorView.innerHTML = '0';
-        } else{
-            calculatorView.innerHTML = operacion;
-        }
+    buttonSubtract.addEventListener('click', () => {
+        removeLastCharacter();
     });
-
 }
 
-
-function updateView () {
+function updateView() {
     calculatorView.innerHTML = operacion || resultado || '0';
-};
+}
 
-function calcularResultado (){
+function calculateResult() {
     try {
-        resultado = eval(operacion);
-        operacion = resultado.toString();
+        let resultadoCalculo = math.evaluate(operacion);
+        historial.push(`${operacion} = ${resultadoCalculo}`);
+        operacion = resultadoCalculo.toString();
         updateView();
     } catch (error) {
         calculatorView.innerHTML = 'Error';
-        operacion = '';
-        resultado = '';
     }
-};
+}
 
+function clearCalculator() {
+    calculatorView.innerHTML = '0';
+    operacion = '';
+    resultado = '';
+}
+
+function removeLastCharacter() {
+    operacion = operacion.slice(0, -1);
+
+    if (operacion === '') {
+        calculatorView.innerHTML = '0';
+    } else {
+        calculatorView.innerHTML = operacion;
+    }
+}

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Calculator</title>
 </head>
 <body>
     <main class="calculator container">
@@ -14,8 +14,8 @@
             <div class="calculator__buttons calculator__grid">
                 <div id="calculator-numbers" class="calculator__numbers">
                     <button id="button-clear"  type="button">AC</button>
-                    <button id="button-substract" type="button">&#9003;</button>
-                    <button type="button">&#37;</button>
+                    <button id="button-subtract" type="button">&#9003;</button>
+                    <button onclick="modular()" type="button">&#37;</button>
                     <button value="1" type="button">1</button>
                     <button value="2" type="button">2</button>
                     <button value="3" type="button">3</button>
@@ -49,6 +49,7 @@
             </div>
         </section>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.6.0/math.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
