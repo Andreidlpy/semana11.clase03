@@ -1,17 +1,14 @@
 document.addEventListener('DOMContentLoaded', createCalculator);
+const buttons = document.querySelectorAll('#calculator-numbers button');
+const calculatorView = document.querySelector('#calculator-view');
+
+let operacion = '';
+let resultado = '';
 
 function createCalculator (){
 
-    const buttons = document.querySelectorAll('#calculator-numbers button');
-    const calculatorView = document.querySelector('#calculator-view');
-
-    let operacion = '';
-    let resultado = '';
-
-
     buttons.forEach(( button ) => {
         button.addEventListener( 'click', () => {
-        
             operacion += button.value;
             updateView();
         })
@@ -25,13 +22,11 @@ function createCalculator (){
             if( operacion === '' ) return;
 
             if( action.value === '=' ){
-                resultado = eval(operacion);
-                operacion = resultado.toString();
-                updateView();
+                calcularResultado();
             }else{
                 operacion += action.value
             }
-
+        
         })
     })
 
@@ -48,12 +43,30 @@ function createCalculator (){
     buttonSubstract.addEventListener( 'click' , ( ) => {
     
         operacion = operacion.split('').splice(0 , operacion.length - 1).join('');
-        updateView();
-
+        
+        if( operacion === '' ) {
+            calculatorView.innerHTML = '0';
+        } else{
+            calculatorView.innerHTML = operacion;
+        }
     });
 
-    const updateView = () => {
-        calculatorView.innerHTML = operacion || resultado || '0';
-    }
 }
+
+
+function updateView () {
+    calculatorView.innerHTML = operacion || resultado || '0';
+};
+
+function calcularResultado (){
+    try {
+        resultado = eval(operacion);
+        operacion = resultado.toString();
+        updateView();
+    } catch (error) {
+        calculatorView.innerHTML = 'Error';
+        operacion = '';
+        resultado = '';
+    }
+};
 

@@ -91,6 +91,7 @@ body{
     background-color: #1A1D24;
     color: #ffffff;
     border: none;
+    cursor: pointer;
 }
 .calculator__actions{
     padding: 1rem 0;
@@ -98,11 +99,14 @@ body{
     flex-direction: column;
     justify-content: space-between;
 }
-
+.calculator__actions button{
+    cursor: pointer;
+}
 .calculator__actions button:last-of-type{
     background-color: #1DC36B;
     color: #0e0f15;
     border-radius: .5rem;
+    cursor: pointer;
 }
 
 .calculator__operacion{
