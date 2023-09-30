@@ -7,6 +7,8 @@ let resultado = '';
 
 function createCalculator (){
 
+    updateView()
+
     buttons.forEach(( button ) => {
         button.addEventListener( 'click', () => {
             operacion += button.value;
